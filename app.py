@@ -16,9 +16,6 @@ MODEL_PATH = "random_forest_regression_model.pkl"
 with open(MODEL_PATH, "rb") as f:
     model = pickle.load(f)
 
-# =========================
-# Load dataset for diagnostics
-# =========================
 # This CSV should have the SAME columns you used for training.
 # Example columns:
 # ['Selling_Price','Present_Price','Kms_Driven','Owner','No_Year',
