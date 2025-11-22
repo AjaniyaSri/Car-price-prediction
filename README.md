@@ -29,9 +29,7 @@ Users simply enter car details, and the app instantly provides:
 
 ## 🚀 Live Demo (If hosting on Streamlit Cloud)
 
-👉 *(Add your Streamlit cloud link here)*
-Example:
-[https://yourusername-car-price.streamlit.app](https://yourusername-car-price.streamlit.app)
+https://ajaniyasri-car-price-prediction-app-e6dhxh.streamlit.app
 
 ---
 
