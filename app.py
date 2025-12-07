@@ -16,10 +16,6 @@ MODEL_PATH = "random_forest_regression_model.pkl"
 with open(MODEL_PATH, "rb") as f:
     model = pickle.load(f)
 
-# This CSV should have the SAME columns you used for training.
-# Example columns:
-# ['Selling_Price','Present_Price','Kms_Driven','Owner','No_Year',
-#  'Fuel_Type_Diesel','Fuel_Type_Petrol','Seller_Type_Individual','Transmission_Manual']
 # Load raw dataset
 df = pd.read_csv("car data.csv")
 
@@ -58,11 +54,6 @@ df = df[[
     "Selling_Price"
 ]]
 
-# # Separate features and target
-# X_all = df.drop(columns=["Selling_Price"])
-# y_all = df["Selling_Price"]
-
-
 # Target and features
 y_all = df["Selling_Price"]
 X_all = df.drop(columns=["Selling_Price"])
@@ -84,61 +75,243 @@ st.set_page_config(
     layout="wide"
 )
 
+# =========================
+# Styling (Fraud-app style)
+# =========================
+st.markdown("""
+    <style>
+        /* ---------- GLOBAL ---------- */
+        .stApp {
+            background: radial-gradient(circle at top, #e5f0ff 0, #f1f5ff 40%, #e5f0ff 100%) !important;
+            color: #111827 !important;
+        }
+
+        html, body, [class*="css"] {
+            color: #111827 !important;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        /* Hide sidebar */
+        section[data-testid="stSidebar"], div[data-testid="stSidebarNav"] {
+            display: none !important;
+        }
+
+        /* Top bar */
+        header[data-testid="stHeader"] {
+            background-color: #e5f0ff00 !important;
+        }
+        header[data-testid="stHeader"] div {
+            box-shadow: none !important;
+        }
+
+        /* Main page width */
+        div.block-container {
+            max-width: 980px;
+            padding-top: 1.6rem;
+            padding-bottom: 3rem;
+            margin: auto;
+        }
+
+        h1 {
+            margin-bottom: 0.25rem !important;
+        }
+        h2 {
+            margin-top: 0.75rem !important;
+            margin-bottom: 0.4rem !important;
+        }
+
+        /* ---------- MAIN CARD ---------- */
+        .main-card {
+            background-color: #ffffff;
+            border-radius: 18px;
+            padding: 1.8rem 2.2rem 2.2rem 2.2rem;
+            box-shadow: 0 22px 45px rgba(15, 23, 42, 0.18);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+        }
+
+        /* Thin divider */
+        .soft-divider {
+            height: 1px;
+            background: linear-gradient(to right, #e5e7eb, #cbd5f5, #e5e7eb);
+            margin: 0.8rem 0 1.1rem 0;
+        }
+
+        /* ---------- INPUTS & DROPDOWNS ---------- */
+        div[data-baseweb="input"] > div,
+        div[data-baseweb="select"] > div,
+        div[data-baseweb="textarea"] > div {
+            background-color: #ffffff !important;
+            color: #111827 !important;
+            border-radius: 10px !important;
+            border: 1px solid #d3d7e3 !important;
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06) !important;
+            min-height: 42px !important;
+        }
+
+        div[data-baseweb="input"]:focus-within > div,
+        div[data-baseweb="select"]:focus-within > div,
+        div[data-baseweb="textarea"]:focus-within > div {
+            border-color: #94b4ff !important;
+            box-shadow: 0 0 0 1px #94b4ff55 !important;
+        }
+
+        input, textarea {
+            color: #111827 !important;
+            background-color: #ffffff !important;
+        }
+
+        div[data-baseweb="select"] span {
+            color: #111827 !important;
+        }
+
+        ul[role="listbox"] {
+            background-color: #ffffff !important;
+            color: #111827 !important;
+            border-radius: 10px !important;
+            border: 1px solid #d1d5db !important;
+            box-shadow: 0 12px 28px rgba(15, 23, 42, 0.18);
+        }
+
+        ul[role="listbox"] li {
+            color: #111827 !important;
+        }
+
+        svg {
+            fill: #6b7280 !important;
+        }
+            
+            /* Make ALL form labels black */
+label, 
+.stTextInput label, 
+.stNumberInput label, 
+.stSelectbox label,
+div[data-testid="stWidgetLabel"] p,
+div[data-testid="stMarkdown"] p {
+    color: #111827 !important;
+    font-weight: 600 !important;
+}
+
+
+        /* ---- FIXED STREAMLIT PLUS / MINUS BUTTON STYLING ---- */
+
+/* The whole right-side button wrapper */
+div[data-baseweb="input"] button {
+    background-color: #ffffff !important;  /* white background */
+    border-radius: 0px 10px 10px 0px !important;
+    border: 1px solid #111827 !important; /* black border */
+    width: 42px !important;
+    height: 42px !important;
+}
+
+/* The + and – icons */
+div[data-baseweb="input"] button svg {
+    fill: #111827 !important;  /* black icon */
+}
+
+/* Hover color */
+div[data-baseweb="input"] button:hover {
+    background-color: #e5e7eb !important;  /* light gray hover */
+}
+
+
+
+        /* ---------- PREDICT BUTTON (light grey like screenshot) ---------- */
+        .stButton > button {
+            background: linear-gradient(180deg, #e5edf7, #d4deee);
+            color: #111827 !important;
+            border-radius: 9999px !important;
+            border: 1px solid #c0c9dd !important;
+            padding: 0.55rem 1.6rem !important;
+            font-weight: 600 !important;
+            font-size: 0.95rem !important;
+            box-shadow: 0 10px 22px rgba(15, 23, 42, 0.18) !important;
+            transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+        }
+
+        .stButton > button:hover {
+            background: linear-gradient(180deg, #dfe7f5, #c8d3ec);
+            transform: translateY(-1px);
+            box-shadow: 0 14px 30px rgba(15, 23, 42, 0.22) !important;
+        }
+
+        .stButton > button:active {
+            transform: translateY(0px);
+            box-shadow: 0 6px 14px rgba(15, 23, 42, 0.18) !important;
+        }
+
+        /* Center the predict button column group a bit tighter */
+        .stButton {
+            margin-top: 0.4rem;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
+# =========================
+# Main Card Wrapper
+# =========================
+# st.markdown('<div class="main-card">', unsafe_allow_html=True)
+
 st.title("🚗 Car Resale Price Predictor")
 st.markdown(
-    "Predict the **estimated selling price (in lakhs)** of a car based on its specifications "
-    "using a trained Random Forest Regression model."
+    "Enter the car details below and click **Predict Price** to estimate its resale value."
 )
+
+# st.markdown('<div class="soft-divider"></div>', unsafe_allow_html=True)
+
+st.header("🔧 Enter Car Details")
 
 # =========================
-# Sidebar Inputs
+# Input Layout (Center, 2 Columns)
 # =========================
-st.sidebar.header("🔧 Enter Car Details")
-
-present_price = st.sidebar.number_input(
-    "Present Price In Showrooms (in lakhs)",
-    min_value=0.0,
-    max_value=200.0,
-    step=0.1,
-    value=5.0
-)
-
-kms_driven = st.sidebar.number_input(
-    "Kms Driven",
-    min_value=0,
-    max_value=500000,
-    step=500,
-    value=30000
-)
-
-owner = st.sidebar.number_input(
-    "Number of previous owners",
-    min_value=0,
-    max_value=5,
-    step=1,
-    value=1
-)
-
 current_year = datetime.datetime.now().year
-car_year = st.sidebar.number_input(
-    "Manufacturing Year",
-    min_value=1990,
-    max_value=current_year,
-    step=1,
-    value=current_year - 5
-)
 
-fuel_type = st.sidebar.selectbox(
-    "Fuel Type",
-    ["Petrol", "Diesel", "CNG"]
-)
+col1, col2 = st.columns(2)
 
-seller_type = st.sidebar.selectbox(
-    "Seller Type",
-    ["Dealer", "Individual"]
-)
+with col1:
+    present_price = st.number_input(
+        "Present Price In Showrooms (in lakhs)",
+        min_value=0.0,
+        max_value=200.0,
+        step=0.1,
+        value=5.0
+    )
 
-transmission = st.sidebar.selectbox(
+    kms_driven = st.number_input(
+        "Kms Driven",
+        min_value=0,
+        max_value=500000,
+        step=500,
+        value=30000
+    )
+
+    owner = st.number_input(
+        "Number of previous owners",
+        min_value=0,
+        max_value=5,
+        step=1,
+        value=1
+    )
+
+with col2:
+    car_year = st.number_input(
+        "Manufacturing Year",
+        min_value=1990,
+        max_value=current_year,
+        step=1,
+        value=current_year - 5
+    )
+
+    fuel_type = st.selectbox(
+        "Fuel Type",
+        ["Petrol", "Diesel", "CNG"]
+    )
+
+    seller_type = st.selectbox(
+        "Seller Type",
+        ["Dealer", "Individual"]
+    )
+
+transmission = st.selectbox(
     "Transmission",
     ["Manual", "Automatic"]
 )
@@ -146,14 +319,18 @@ transmission = st.sidebar.selectbox(
 # Compute no_year (age) internally – model is trained on No_Year
 no_year = current_year - car_year
 
-# =========================
-# Predict button
-# =========================
-if st.sidebar.button("Predict Price"):
+# Centered Predict Button
+st.write("")
+button_cols = st.columns([1, 1, 1])
+with button_cols[1]:
+    predict_clicked = st.button("🔍 Predict Price", use_container_width=True)
 
-    # -------------------------
+# =========================
+# Prediction Logic
+# =========================
+if predict_clicked:
+
     # Manual encoding (must match training)
-    # -------------------------
     if fuel_type == "Petrol":
         Fuel_Type_Petrol = 1
         Fuel_Type_Diesel = 0
@@ -167,10 +344,7 @@ if st.sidebar.button("Predict Price"):
     Seller_Type_Individual = 1 if seller_type == "Individual" else 0
     Transmission_Manual = 1 if transmission == "Manual" else 0
 
-    # Feature order MUST match the order you used during training:
-    # ['Present_Price', 'Kms_Driven', 'Owner', 'No_Year',
-    #  'Fuel_Type_Diesel', 'Fuel_Type_Petrol',
-    #  'Seller_Type_Individual', 'Transmission_Manual']
+    # Feature order MUST match the order you used during training
     input_data = np.array([[
         present_price,
         kms_driven,
@@ -185,16 +359,15 @@ if st.sidebar.button("Predict Price"):
     # Make prediction
     prediction = float(model.predict(input_data)[0])
 
-    # =========================
-    # Result metric
-    # =========================
+    st.markdown('<div class="soft-divider"></div>', unsafe_allow_html=True)
+
     st.subheader("🔮 Predicted Selling Price")
     st.metric("Estimated Price (lakhs)", f"{prediction:.2f}")
 
     # =========================
-    # Price Comparison (smaller chart)
+    # Price Comparison
     # =========================
-    st.write("---")
+    st.write("")
     st.subheader("📊 Price Comparison")
 
     comp_df = pd.DataFrame({
@@ -202,35 +375,30 @@ if st.sidebar.button("Predict Price"):
         "Price (lakhs)": [present_price, prediction]
     })
 
-    fig, ax = plt.subplots(figsize=(3, 1))  # reduced size
+    fig, ax = plt.subplots(figsize=(4, 2))
     sns.barplot(
         x="Category",
         y="Price (lakhs)",
         data=comp_df,
-        palette=["#6AB7A8", "#E9967A"],
+        palette=["#93c5fd", "#fbbf77"],
         ax=ax
     )
-    ax.set_ylabel("Price (lakhs)", fontsize=8)
+    ax.set_ylabel("Price (lakhs)")
     ax.set_xlabel("")
-    ax.tick_params(axis='x', labelsize=8)
-    ax.tick_params(axis='y', labelsize=8)
-    ax.set_title("Present vs Estimated Price", fontsize=8)
+    ax.set_title("Present vs Estimated Price", fontsize=10)
     sns.despine()
     st.pyplot(fig)
 
     # =========================
-    # Model Diagnostics (Actual vs Predicted + Residuals)
+    # Model Diagnostics
     # =========================
     st.write("---")
-    # st.subheader("📈 Model Diagnostics")
+    dcol1, dcol2 = st.columns(2)
 
-    col1, col2 = st.columns(2)
-
-    # 1. Actual vs Predicted
-    with col1:
+    with dcol1:
         st.markdown("### 📉 Actual vs Predicted")
 
-        fig1, ax1 = plt.subplots(figsize=(3, 3))
+        fig1, ax1 = plt.subplots(figsize=(4, 3))
         sns.scatterplot(x=y_all, y=y_pred_all, alpha=0.6, ax=ax1)
         ax1.plot(
             [y_all.min(), y_all.max()],
@@ -243,19 +411,20 @@ if st.sidebar.button("Predict Price"):
         ax1.set_title(f"R² = {r2:.3f}")
         st.pyplot(fig1)
 
-    # 2. Residuals Distribution
-    with col2:
+    with dcol2:
         st.markdown("### 📊 Residuals Distribution")
 
         residuals = y_all - y_pred_all
-        fig2, ax2 = plt.subplots(figsize=(3, 3))
+        fig2, ax2 = plt.subplots(figsize=(4, 3))
         sns.histplot(residuals, bins=30, kde=True, ax=ax2, color="purple")
         ax2.set_xlabel("Prediction Error (lakhs)")
         ax2.set_ylabel("Count")
         ax2.set_title("Residuals Distribution")
         st.pyplot(fig2)
 
-
+    # =========================
+    # Interpretation & Tips
+    # =========================
     st.write("---")
     st.subheader("💡 Interpretation & Tips")
 
@@ -287,6 +456,9 @@ if st.sidebar.button("Predict Price"):
         - Compare your price with similar listings on car sale platforms  
         """
     )
+
+# close main-card
+# st.markdown('</div>', unsafe_allow_html=True)
 
 # =========================
 # Footer
