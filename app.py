@@ -217,7 +217,7 @@ div[data-baseweb="input"] button:hover {
 
         /* ---------- PREDICT BUTTON (light grey like screenshot) ---------- */
         .stButton > button {
-            background: linear-gradient(180deg, #e5edf7, #d4deee);
+            background: #a2d2ff;
             color: #111827 !important;
             border-radius: 9999px !important;
             border: 1px solid #c0c9dd !important;
