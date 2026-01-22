@@ -79,171 +79,164 @@ st.set_page_config(
 # Styling (Fraud-app style)
 # =========================
 st.markdown("""
-    <style>
-        /* ---------- GLOBAL ---------- */
-        .stApp {
-            background: radial-gradient(circle at top, #e5f0ff 0, #f1f5ff 40%, #e5f0ff 100%) !important;
-            color: #111827 !important;
-        }
+<style>
+/* ---------- GLOBAL ---------- */
+.stApp {
+    background: radial-gradient(circle at top, #e5f0ff 0, #f1f5ff 40%, #e5f0ff 100%) !important;
+    color: #111827 !important;
+}
 
-        html, body, [class*="css"] {
-            color: #111827 !important;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        }
+html, body, [class*="css"] {
+    color: #111827 !important;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
 
-        /* Hide sidebar */
-        section[data-testid="stSidebar"], div[data-testid="stSidebarNav"] {
-            display: none !important;
-        }
+/* Hide sidebar */
+section[data-testid="stSidebar"], div[data-testid="stSidebarNav"] {
+    display: none !important;
+}
 
-        /* Top bar */
-        header[data-testid="stHeader"] {
-            background-color: #e5f0ff00 !important;
-        }
-        header[data-testid="stHeader"] div {
-            box-shadow: none !important;
-        }
+/* Top bar */
+header[data-testid="stHeader"] {
+    background-color: #e5f0ff00 !important;
+}
+header[data-testid="stHeader"] div {
+    box-shadow: none !important;
+}
 
-        /* Main page width */
-        div.block-container {
-            max-width: 980px;
-            padding-top: 1.6rem;
-            padding-bottom: 3rem;
-            margin: auto;
-        }
+/* Main page width */
+div.block-container {
+    max-width: 980px;
+    padding-top: 1.6rem;
+    padding-bottom: 3rem;
+    margin: auto;
+}
 
-        h1 {
-            margin-bottom: 0.25rem !important;
-        }
-        h2 {
-            margin-top: 0.75rem !important;
-            margin-bottom: 0.4rem !important;
-        }
+h1 { margin-bottom: 0.25rem !important; }
+h2 { margin-top: 0.75rem !important; margin-bottom: 0.4rem !important; }
 
-        /* ---------- MAIN CARD ---------- */
-        .main-card {
-            background-color: #ffffff;
-            border-radius: 18px;
-            padding: 1.8rem 2.2rem 2.2rem 2.2rem;
-            box-shadow: 0 22px 45px rgba(15, 23, 42, 0.18);
-            border: 1px solid rgba(148, 163, 184, 0.25);
-        }
+/* ---------- MAIN CARD ---------- */
+.main-card {
+    background-color: #ffffff;
+    border-radius: 18px;
+    padding: 1.8rem 2.2rem 2.2rem 2.2rem;
+    box-shadow: 0 22px 45px rgba(15, 23, 42, 0.18);
+    border: 1px solid rgba(148, 163, 184, 0.25);
+}
 
-        /* Thin divider */
-        .soft-divider {
-            height: 1px;
-            background: linear-gradient(to right, #e5e7eb, #cbd5f5, #e5e7eb);
-            margin: 0.8rem 0 1.1rem 0;
-        }
+/* Thin divider */
+.soft-divider {
+    height: 1px;
+    background: linear-gradient(to right, #e5e7eb, #cbd5f5, #e5e7eb);
+    margin: 0.8rem 0 1.1rem 0;
+}
 
-        /* ---------- INPUTS & DROPDOWNS ---------- */
-        div[data-baseweb="input"] > div,
-        div[data-baseweb="select"] > div,
-        div[data-baseweb="textarea"] > div {
-            background-color: #ffffff !important;
-            color: #111827 !important;
-            border-radius: 10px !important;
-            border: 1px solid #d3d7e3 !important;
-            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06) !important;
-            min-height: 42px !important;
-        }
+/* ---------- INPUTS & DROPDOWNS ---------- */
+div[data-baseweb="input"] > div,
+div[data-baseweb="select"] > div,
+div[data-baseweb="textarea"] > div {
+    background-color: #ffffff !important;
+    color: #111827 !important;
+    border-radius: 10px !important;
+    border: 1px solid #d3d7e3 !important;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06) !important;
+    min-height: 42px !important;
+}
 
-        div[data-baseweb="input"]:focus-within > div,
-        div[data-baseweb="select"]:focus-within > div,
-        div[data-baseweb="textarea"]:focus-within > div {
-            border-color: #94b4ff !important;
-            box-shadow: 0 0 0 1px #94b4ff55 !important;
-        }
+div[data-baseweb="input"]:focus-within > div,
+div[data-baseweb="select"]:focus-within > div,
+div[data-baseweb="textarea"]:focus-within > div {
+    border-color: #94b4ff !important;
+    box-shadow: 0 0 0 1px #94b4ff55 !important;
+}
 
-        input, textarea {
-            color: #111827 !important;
-            background-color: #ffffff !important;
-        }
+input, textarea {
+    color: #111827 !important;
+    background-color: #ffffff !important;
+}
 
-        div[data-baseweb="select"] span {
-            color: #111827 !important;
-        }
+div[data-baseweb="select"] span {
+    color: #111827 !important;
+}
 
-        ul[role="listbox"] {
-            background-color: #ffffff !important;
-            color: #111827 !important;
-            border-radius: 10px !important;
-            border: 1px solid #d1d5db !important;
-            box-shadow: 0 12px 28px rgba(15, 23, 42, 0.18);
-        }
+ul[role="listbox"] {
+    background-color: #ffffff !important;
+    color: #111827 !important;
+    border-radius: 10px !important;
+    border: 1px solid #d1d5db !important;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.18);
+}
 
-        ul[role="listbox"] li {
-            color: #111827 !important;
-        }
+ul[role="listbox"] li {
+    color: #111827 !important;
+}
 
-        svg {
-            fill: #6b7280 !important;
-        }
-            
-            /* Make ALL form labels black */
-label, 
-.stTextInput label, 
-.stNumberInput label, 
+svg { fill: #6b7280 !important; }
+
+/* ---------- MAKE ALL LABELS BLACK ---------- */
+label,
+.stTextInput label,
+.stNumberInput label,
 .stSelectbox label,
-div[data-testid="stWidgetLabel"] p,
-div[data-testid="stMarkdown"] p {
+div[data-testid="stWidgetLabel"] p {
     color: #111827 !important;
     font-weight: 600 !important;
 }
 
-
-        /* ---- FIXED STREAMLIT PLUS / MINUS BUTTON STYLING ---- */
-
-/* The whole right-side button wrapper */
+/* ---------- FIX +/- BUTTONS ON NUMBER INPUT ---------- */
 div[data-baseweb="input"] button {
-    background-color: #ffffff !important;  /* white background */
+    background-color: #ffffff !important;
     border-radius: 0px 10px 10px 0px !important;
-    border: 1px solid #111827 !important; /* black border */
+    border: 1px solid #111827 !important;
     width: 42px !important;
     height: 42px !important;
 }
-
-/* The + and – icons */
 div[data-baseweb="input"] button svg {
-    fill: #111827 !important;  /* black icon */
+    fill: #111827 !important;
 }
-
-/* Hover color */
 div[data-baseweb="input"] button:hover {
-    background-color: #e5e7eb !important;  /* light gray hover */
+    background-color: #e5e7eb !important;
 }
 
+/* ---------- PREDICT BUTTON ---------- */
+.stButton > button {
+    background: #a2d2ff;
+    color: #111827 !important;
+    border-radius: 9999px !important;
+    border: 1px solid #c0c9dd !important;
+    padding: 0.55rem 1.6rem !important;
+    font-weight: 600 !important;
+    font-size: 0.95rem !important;
+    box-shadow: 0 10px 22px rgba(15, 23, 42, 0.18) !important;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
 
+.stButton > button:hover {
+    background: linear-gradient(180deg, #dfe7f5, #c8d3ec);
+    transform: translateY(-1px);
+    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.22) !important;
+}
 
-        /* ---------- PREDICT BUTTON (light grey like screenshot) ---------- */
-        .stButton > button {
-            background: #a2d2ff;
-            color: #111827 !important;
-            border-radius: 9999px !important;
-            border: 1px solid #c0c9dd !important;
-            padding: 0.55rem 1.6rem !important;
-            font-weight: 600 !important;
-            font-size: 0.95rem !important;
-            box-shadow: 0 10px 22px rgba(15, 23, 42, 0.18) !important;
-            transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
-        }
+.stButton > button:active {
+    transform: translateY(0px);
+    box-shadow: 0 6px 14px rgba(15, 23, 42, 0.18) !important;
+}
 
-        .stButton > button:hover {
-            background: linear-gradient(180deg, #dfe7f5, #c8d3ec);
-            transform: translateY(-1px);
-            box-shadow: 0 14px 30px rgba(15, 23, 42, 0.22) !important;
-        }
+/* ---------- FIX: st.metric() (Estimated Price value was white) ---------- */
+div[data-testid="stMetricValue"] {
+    color: #111827 !important;     /* black */
+    font-weight: 700 !important;
+}
+div[data-testid="stMetricValue"] * {
+    color: #111827 !important;     /* covers nested spans */
+}
 
-        .stButton > button:active {
-            transform: translateY(0px);
-            box-shadow: 0 6px 14px rgba(15, 23, 42, 0.18) !important;
-        }
-
-        /* Center the predict button column group a bit tighter */
-        .stButton {
-            margin-top: 0.4rem;
-        }
-    </style>
+/* optional: metric label color */
+div[data-testid="stMetricLabel"] {
+    color: #111827 !important;
+    font-weight: 600 !important;
+}
+</style>
 """, unsafe_allow_html=True)
 
 # =========================
